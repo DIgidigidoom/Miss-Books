@@ -1,4 +1,5 @@
 import { getBooks } from "../books.js"
+import { BookList } from "../cmps/BookList.jsx"
 
 import { bookService } from "../services/book.service.js"
 
@@ -11,7 +12,6 @@ export function BookIndex() {
 
     useEffect(() => {
         LoadBooks()
-        console.log(books)
     }, [])
 
 
@@ -21,5 +21,9 @@ export function BookIndex() {
             .catch(err => console.log('err:', err))
 
     }
-    return <pre>{JSON.stringify(books, null, 5)}</pre>
+    return (
+        <section className="book-index">
+            {books ? <BookList books={books} /> : <div>Loading...</div>}
+        </section>
+    )
 }

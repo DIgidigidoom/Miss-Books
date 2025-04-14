@@ -44,39 +44,40 @@ function save(book) {
         return storageService.post(BOOK_KEY, book)
     }
 }
+function getDefaultFilter() {
+    return { txt: '', minSpeed: '' }
+}
 
-function getEmptyBook(title = '', description = '', thumbnail = '') {
+function getEmptyBook(title = '', description = '', thumbnail = '',listPrice ={}) {
     return {
         title,
         description,
         thumbnail,
         listPrice: {
-            amount: 0,
-            currencyCode: "EUR",
-            isOnSale: false
+            amount: listPrice.amount,
+            currencyCode:listPrice.currencyCode ,
+            isOnSale: listPrice.isOnSale
         }
     }
 }
 
-function getDefaultFilter() {
-    return { txt: '', minSpeed: '' }
-}
+
 
 function _createBooks() {
     let books = loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
         books = [
-            _createBook('Gwent','Card Game','1.png',{amount: 300, currencyCode: "USD", isOnSale: true } ),
-            _createBook('Between Here And Gone','Blah Blah','2.png',{amount: 120, currencyCode: "EUR", isOnSale: false }),
-            _createBook('magic Lantern','Shnishnish','3.png',{amount: 50, currencyCode: "USD", isOnSale: true }),
+            _createBook('Gwent','Card Game','1',{amount: 300, currencyCode: "USD", isOnSale: true } ),
+            _createBook('Between Here And Gone','Blah Blah','2',{amount: 120, currencyCode: "EUR", isOnSale: false }),
+            _createBook('magic Lantern','Shnishnish','3',{amount: 50, currencyCode: "USD", isOnSale: true }),
 
         ]
         saveToStorage(BOOK_KEY, books)
     }
 }
 
-function _createBook(title, description, thumbnail, listPrice) {
-    const book = getEmptyBook(title, description, thumbnail, listPrice)
+function _createBook(title, description, thumbnail,{amount, currencyCode, isOnSale } ) {
+    const book = getEmptyBook(title, description, thumbnail,{amount, currencyCode, isOnSale }  )
     book.id = makeId()
     return book
 }
