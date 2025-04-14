@@ -14,15 +14,44 @@ export function BookDetails({ bookId, onBack }) {
             .then(book => setBook(book))
             .catch(err => console.log('err:', err))
     }
+    function onPagesCount(pageCount) {
+
+        if (pageCount > 500) return 'Serious Reading'
+        else if (pageCount > 200) return 'Decent Reading'
+        else if (pageCount < 100) return 'Light Reading'
+
+    }
+    function onPublishDate(publishedDate) {
+        const currentYear = new Date().getFullYear();
+        if (currentYear - publishedDate > 10) return '- Vintage'
+        else if (currentYear - publishedDate <= 1) return '- New'
+        else return ''
+    }
+
+    function onBookPriceColor(amount) {
+        if (amount > 150) return 'red'
+        if (amount < 20) return 'green'
+        else return ''
+    }
 
     if (!book) return <div>Loading...</div>
-    const { title, description, thumbnail, listPrice: { amount } } = book
+    const { title, subtitle, authors, pageCount, categories, language, publishedDate, description, thumbnail, listPrice: { amount, currencyCode, isOnSale } } = book
     return (
         <section className="book-details container">
-            <h1>Book Title: {title}</h1>
-            <h1>Book Price: {amount}</h1>
-            <p>{description}</p>
-            <img src={`../assets/img/${thumbnail}.jpg`} alt="Book Image" />
+            <div className="book-title">
+                <h1>{title}</h1>
+                <h3>{subtitle}</h3>
+                <img className={`book-on-sale ${!isOnSale ? 'hidden' : ''}`} src="../assets/img/on-sale.png" alt="" />
+            </div>
+            
+            <h1 className="book-price"><span className={onBookPriceColor(amount)}>{amount}</span> [{currencyCode}]</h1>
+            <p className="book-description">{description}</p>
+            <p className="book-publish-date">Released : {publishedDate} {onPublishDate(publishedDate)} </p>
+            <p className="book-page-count"> {pageCount} Pages - {onPagesCount(pageCount)} </p>
+            <p className="book-categories">Categories : {[...categories]}</p>
+            <p className="book-lang">language : {language}</p>
+            <img className="book-img" src={`../assets/img/${thumbnail}.jpg`} alt="Book Image" />
+            <p className="book-author">Authors : {[...authors]}</p>
             <button onClick={onBack}>Back</button>
         </section>
     )

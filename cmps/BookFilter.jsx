@@ -48,7 +48,6 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
     }
 
     const { txt, price } = filterByToEdit
-    console.log('price:', price)
     return (
         <section className="book-filter container">
             <h2>Filter Our Books</h2>
