@@ -1,4 +1,5 @@
 import { getBooks } from "../books.js"
+import { BookFilter } from "../cmps/BookFilter.jsx"
 import { BookList } from "../cmps/BookList.jsx"
 
 import { bookService } from "../services/book.service.js"
@@ -11,14 +12,15 @@ export function BookIndex() {
 
     const [books, setBooks] = useState(null)
     const [selectedBookId, setSelectedBookId] = useState(null)
+    const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
 
     useEffect(() => {
         LoadBooks()
-    }, [])
+    }, [filterBy])
 
 
     function LoadBooks() {
-        bookService.query()
+        bookService.query(filterBy)
             .then(books => setBooks(books))
             .catch(err => console.log('err:', err))
 
@@ -26,6 +28,11 @@ export function BookIndex() {
     function onSelectBookId(bookId) {
         setSelectedBookId(bookId)
     }
+
+    function onSetFilterBy(filterByToEdit) {
+        setFilterBy(prevFilter => ({ ...prevFilter, ...filterByToEdit }))
+    }
+
     return (
 
         <section className="book-index">
@@ -36,10 +43,16 @@ export function BookIndex() {
                 />
             }
             {!selectedBookId && (
-                books ? <BookList 
-                books={books}
-                onSelectBookId={onSelectBookId} /> : 
-                <div>Loading...</div>
+                books 
+                    ? <React.Fragment>
+                        <BookFilter 
+                            onSetFilterBy={onSetFilterBy} 
+                            filterBy={filterBy} />
+                        <BookList 
+                            books={books}
+                            onSelectBookId={onSelectBookId} />
+                </React.Fragment> 
+                : <div>Loading...</div>
             )}
         </section>
     )

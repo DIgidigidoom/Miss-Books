@@ -20,10 +20,10 @@ function query(filterBy = {}) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 books = books.filter(book => regExp.test(book.title))
             }
-            // if (filterBy.minSpeed) {
-            //     books = books.filter(book => book.speed >= filterBy.minSpeed)
-            // }
-            console.log(books)
+            if (filterBy.price) {
+                books = books.filter(book => book.listPrice.amount >= filterBy.price)
+            }
+            
             return books
         })
 }
@@ -45,7 +45,7 @@ function save(book) {
     }
 }
 function getDefaultFilter() {
-    return { txt: '', minSpeed: '' }
+    return { txt: '', price: '' }
 }
 
 function getEmptyBook(title = '', description = '', thumbnail = '',listPrice ={}) {

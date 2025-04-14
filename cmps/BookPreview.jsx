@@ -1,5 +1,5 @@
 export function BookPreview({ book }) {
-    console.log(book)
+    
     const { title, thumbnail, listPrice: { amount, currencyCode } } = book
     return (
         <article className="book-preview">
