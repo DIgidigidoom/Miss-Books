@@ -1,7 +1,7 @@
 import { BookPreview } from "./BookPreview.jsx";
 
 
-export function BookList({books}) {
+export function BookList({books , onSelectBookId}) {
     
     if (!books.length) return <div>No Books To Show...</div>
     return (
