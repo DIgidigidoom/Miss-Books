@@ -45,8 +45,17 @@ function save(book) {
     }
 }
 
-function getEmptyBook(title = '', listPrice = 0) {
-    return {title, listPrice }
+function getEmptyBook(title = '', description = '', thumbnail = '') {
+    return {
+        title,
+        description,
+        thumbnail,
+        listPrice: {
+            amount: 0,
+            currencyCode: "EUR",
+            isOnSale: false
+        }
+    }
 }
 
 function getDefaultFilter() {
@@ -57,17 +66,17 @@ function _createBooks() {
     let books = loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
         books = [
-            _createBook('Gwent', 300),
-            _createBook('Between Here And Gone', 120),
-            _createBook('magic Lantern', 50),
-            
+            _createBook('Gwent','Card Game','1.png',{amount: 300, currencyCode: "USD", isOnSale: true } ),
+            _createBook('Between Here And Gone','Blah Blah','2.png',{amount: 120, currencyCode: "EUR", isOnSale: false }),
+            _createBook('magic Lantern','Shnishnish','3.png',{amount: 50, currencyCode: "USD", isOnSale: true }),
+
         ]
         saveToStorage(BOOK_KEY, books)
     }
 }
 
-function _createBook(title, listPrice = 100) {
-    const book = getEmptyBook(title, listPrice)
+function _createBook(title, description, thumbnail, listPrice) {
+    const book = getEmptyBook(title, description, thumbnail, listPrice)
     book.id = makeId()
     return book
 }
