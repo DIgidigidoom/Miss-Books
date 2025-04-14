@@ -64,16 +64,31 @@ function getEmptyBook(title = '', description = '', thumbnail = '',listPrice ={}
 
 
 function _createBooks() {
-    let books = loadFromStorage(BOOK_KEY)
-    if (!books || !books.length) {
-        books = [
-            _createBook('Gwent','Card Game','1',{amount: 300, currencyCode: "USD", isOnSale: true } ),
-            _createBook('Between Here And Gone','Blah Blah','2',{amount: 120, currencyCode: "EUR", isOnSale: false }),
-            _createBook('magic Lantern','Shnishnish','3',{amount: 50, currencyCode: "USD", isOnSale: true }),
-
-        ]
-        saveToStorage(BOOK_KEY, books)
-    }
+    const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion'] 
+    const books = [] 
+    for (let i = 0; i < 20; i++) { 
+        const book = { 
+            id: utilService.makeId(), 
+            title: utilService.makeLorem(2), 
+            subtitle: utilService.makeLorem(4), 
+            authors: [ 
+                utilService.makeLorem(1) 
+            ], 
+            publishedDate: utilService.getRandomIntInclusive(1950, 2024), 
+            description: utilService.makeLorem(20), 
+            pageCount: utilService.getRandomIntInclusive(20, 600), 
+            categories: [ctgs[utilService.getRandomIntInclusive(0, ctgs.length - 1)]], 
+            thumbnail: `${i+1}`, 
+            language: "en", 
+            listPrice: { 
+                amount: utilService.getRandomIntInclusive(80, 500), 
+                currencyCode: "EUR", 
+                isOnSale: Math.random() > 0.7 
+            } 
+        } 
+        books.push(book) 
+    } 
+    saveToStorage(BOOK_KEY, books)
 }
 
 function _createBook(title, description, thumbnail,{amount, currencyCode, isOnSale } ) {
