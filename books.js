@@ -442,3 +442,7 @@ const books = [
     }
   }
 ]
+
+export function getBooks(){
+  return books
+}
