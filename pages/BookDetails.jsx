@@ -3,10 +3,12 @@ const { useParams, useNavigate, Link } = ReactRouterDOM
 
 const { useState, useEffect } = React
 
-export function BookDetails({ bookId, onBack }) {
+export function BookDetails() {
 
     const [book, setBook] = useState(null)
     const params = useParams()
+    const navigate = useNavigate()
+    
     useEffect(() => {
         loadBook()
     }, [])
@@ -34,6 +36,10 @@ export function BookDetails({ bookId, onBack }) {
         if (amount > 150) return 'red'
         if (amount < 20) return 'green'
         else return ''
+    }
+    function onBack() {
+        navigate('/book-index')
+        
     }
 
     if (!book) return <div>Loading...</div>

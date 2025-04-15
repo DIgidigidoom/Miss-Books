@@ -24,23 +24,6 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
 
-    // function handleChangeShortVersion({ target }) {
-    //     const field = target.name
-    //     let value = target.type === 'number' ? +target.value : target.value
-    //     setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
-    // }
-
-    /* 
-    function handleTxtChange({ target }) {
-        const value = target.value
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, txt: value }))
-    }
-
-    function handleMinSpeedChange({ target }) {
-        const value = +target.value
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, price: value }))
-    }
-    */
 
     function onSubmitFilter(ev) {
         ev.preventDefault()

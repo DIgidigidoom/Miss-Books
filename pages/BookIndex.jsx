@@ -11,6 +11,7 @@ const { useState, useEffect } = React
 export function BookIndex() {
 
     const [books, setBooks] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
     const [selectedBookId, setSelectedBookId] = useState(null)
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
 
@@ -25,6 +26,20 @@ export function BookIndex() {
             .catch(err => console.log('err:', err))
 
     }
+    function onRemoveBook(bookId) {
+        setIsLoading(true)
+        bookService.remove(bookId)
+            .then(() => {
+                setBooks((prevBook) => prevBook.filter(book => book.id !== bookId))
+                showSuccessMsg(`Book (${bookId}) removed successfully!`)
+            })
+            .catch(err => {
+                console.log('Problem removing book:', err)
+                showErrorMsg('Problem removing book!')
+            })
+            .finally(() => setIsLoading(false))
+            // bookService.save(bookService.get(bookId))
+    }
     function onSelectBookId(bookId) {
         setSelectedBookId(bookId)
     }
@@ -32,7 +47,8 @@ export function BookIndex() {
     function onSetFilterBy(filterByToEdit) {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterByToEdit }))
     }
-
+    if (!books) return <div className="loader">Loading...</div>
+    const loadingClass = isLoading ? 'loading' : ''
     return (
 
         <section className="book-index">
@@ -43,16 +59,18 @@ export function BookIndex() {
                 />
             }
             {!selectedBookId && (
-                books 
+                books
                     ? <React.Fragment>
-                        <BookFilter 
-                            onSetFilterBy={onSetFilterBy} 
+                        <BookFilter
+                            onSetFilterBy={onSetFilterBy}
                             filterBy={filterBy} />
-                        <BookList 
+                        <BookList
                             books={books}
-                            onSelectBookId={onSelectBookId} />
-                </React.Fragment> 
-                : <div>Loading...</div>
+                            onSelectBookId={onSelectBookId}
+                            onRemoveBook ={onRemoveBook} 
+                            loadingClass={loadingClass}/>
+                    </React.Fragment>
+                    : <div>Loading...</div>
             )}
         </section>
     )
