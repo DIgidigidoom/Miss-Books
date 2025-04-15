@@ -38,7 +38,7 @@ export function BookIndex() {
                 showErrorMsg('Problem removing book!')
             })
             .finally(() => setIsLoading(false))
-            // bookService.save(bookService.get(bookId))
+           
     }
     function onSelectBookId(bookId) {
         setSelectedBookId(bookId)

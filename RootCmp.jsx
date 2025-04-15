@@ -6,6 +6,9 @@ const { Routes, Route, Navigate } = ReactRouterDOM
 import { AppHeader } from "./cmps/AppHeader.jsx"
 import { BookEdit } from "./cmps/BookEdit.jsx"
 import { NotFound } from "./cmps/NotFound.jsx"
+import { Team } from "./cmps/Team.jsx"
+import { UserMsg } from "./cmps/UserMsg.jsx"
+import { Vision } from "./cmps/Vision.jsx"
 import { About } from "./pages/About.jsx"
 import { BookDetails } from "./pages/BookDetails.jsx"
 import { BookIndex } from "./pages/BookIndex.jsx"
@@ -26,8 +29,8 @@ export function RootCmp() {
                         <Route path="/" element={<Navigate to="/Home" />} />
                         <Route path="/home" element={<Home />} />
                         <Route path="/about" element={<About />}>
-                            {/* <Route path="/about/team" element={<Team />} />
-                            <Route path="/about/vision" element={<Vision />} /> */}
+                            <Route path="/about/team" element={<Team />} />
+                            <Route path="/about/vision" element={<Vision />} />
                         </Route>
                         <Route path="/book-index" element={<BookIndex />} />
                         <Route path="/book-index/:bookId" element={<BookDetails />} />
@@ -36,16 +39,8 @@ export function RootCmp() {
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </main>
+                <UserMsg />
             </section>
         </Router>
-        // <section className="app">
-        //     <AppHeader onSetPage={(page) => setPage(page)} />
-
-        //     <main>
-        //         {page === 'home' && <Home />}
-        //         {page === 'about' && <About />}
-        //         {page === 'book-index' && <BookIndex />}
-        //     </main>
-        // </section>
     )
 } 

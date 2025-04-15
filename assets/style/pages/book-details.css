@@ -77,8 +77,12 @@
     grid-area: categories;
     
 }
-.book-details .book-lang {
-    grid-area: book-lang;
+.next-prev-btns {
+    display: flex;
+    grid-area: next-prev-btns;
+    place-items: center;
+    justify-content: center;
+    border: none;
     
 }
 .book-details .book-on-sale {
