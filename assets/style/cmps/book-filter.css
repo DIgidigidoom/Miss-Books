@@ -1,5 +1,5 @@
 .book-filter {
-    background-color: var(white);
+    background-color: var(--clr3bg);
     padding-block: 1em;
 }
 
@@ -13,6 +13,12 @@
     gap: .5em;
 }
 
-.book-filter form button {
-    margin-inline: 0
+.book-filter .book-filter-btn {
+    margin-inline: 0;
+    width: fit-content;
+    justify-self: end;
+}
+.add-book-btn{
+    width: fit-content;
+    justify-self: start;
 }

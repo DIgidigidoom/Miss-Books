@@ -8,9 +8,7 @@ export function BookList({ books, onRemoveBook,loadingClass }) {
     if (!books.length) return <div>No Books To Show...</div>
     return (
         <React.Fragment>
-            <button>
-                <Link to={`/book-index/edit/`}>+</Link>
-            </button>
+          
             <ul className="book-list container">
                 {books.map(book => (
                     <li className={loadingClass} key={book.id}>

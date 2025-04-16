@@ -5,9 +5,9 @@
     "book-img book-description book-description book-description book-description"
     "book-price book-description book-description book-description book-description"
     "book-author book-description book-description   book-description book-description"
-    "back-button book-publish-date book-page-count categories book-lang";
+    "back-button book-publish-date book-page-count book-categorie book-lang";
     padding: 20px;
-    gap: 5px;
+    gap: 1px;
    
 }
 .book-details>* {
@@ -16,6 +16,7 @@
     gap: 5px;
     padding: 20px;
     margin: 0;
+    background-color: var(--clr1bg);
    
 }
 .book-details .book-title {
@@ -46,7 +47,7 @@
 .book-details .book-description {
     grid-area: book-description;
     color: var(--clr1txt);
-    font-size: 2em;
+    font-size: 1.6em;
     
 }
 
@@ -58,23 +59,33 @@
 }
 .book-details .book-author{
     grid-area: book-author;
-    font-size: 1.5em;
+    font-size: 1.2em;
     margin: 0;
 }
 .book-details button {
     grid-area: back-button;
+    background-color: var(--clr2bg);
+    font-size: 1.2em;
     
 }
 .book-details .book-publish-date {
     grid-area: book-publish-date;
+    font-size: 1.2em;
     
 }
 .book-details .book-page-count {
     grid-area: book-page-count;
+    font-size: 1.2em;
     
 }
-.book-details .categories {
-    grid-area: categories;
+.book-details .book-categories {
+    grid-area: book-categorie;
+    font-size: 1.2em;
+    
+}
+.book-details .book-lang {
+    grid-area: book-lang;
+    font-size: 1.2em;
     
 }
 .next-prev-btns {
@@ -83,6 +94,7 @@
     place-items: center;
     justify-content: center;
     border: none;
+    font-size: 1.2em;
     
 }
 .book-details .book-on-sale {

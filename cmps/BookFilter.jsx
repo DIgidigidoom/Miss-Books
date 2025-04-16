@@ -1,4 +1,5 @@
 const { useState, useEffect } = React
+const { Link } = ReactRouterDOM
 
 export function BookFilter({ filterBy, onSetFilterBy }) {
 
@@ -41,7 +42,11 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
                 <label htmlFor="price">Price</label>
                 <input onChange={handleChange} value={price || ''} name="price" id="price" type="number" />
 
-                <button>Submit</button>
+
+                <button className="btn add-book-btn" id="add-book">
+                    <Link to={`/book-index/edit/`}>Add Book</Link>
+                </button>
+                <button className="btn book-filter-btn">Submit</button>
             </form>
         </section>
     )
