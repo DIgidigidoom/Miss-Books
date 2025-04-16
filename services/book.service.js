@@ -10,7 +10,12 @@ export const bookService = {
     remove,
     save,
     getEmptyBook,
-    getDefaultFilter
+    getDefaultFilter,
+    getFilterFromSearchParams,
+    getCategoryStats,
+    removeReview,
+    getEmptyReview,
+    saveReview
 }
 
 function query(filterBy = {}) {
@@ -30,6 +35,32 @@ function query(filterBy = {}) {
 
 function get(bookId) {
     return storageService.get(BOOK_KEY, bookId).then(_setNextPrevBookId)
+}
+
+function saveReview(bookId, reviewToSave) {
+    reviewToSave.date = new Date(reviewToSave.date).getTime()
+    return get(bookId).then(book => {
+        const review = _createReview(reviewToSave)
+        book.reviews.unshift(review)
+        return save(book).then(() => review)
+    })
+}
+function getEmptyReview() {
+    return {
+        fullName: 'new name',
+        rating: 0,
+        date: new Date().toISOString().slice(0, 10),
+        txt: '',
+        selected: 0,
+    }
+}
+
+function removeReview(bookId, reviewId) {
+    return get(bookId).then(book => {
+        const newReviews = book.reviews.filter((review) => review.id !== reviewId)
+        book.reviews = newReviews
+        return save(book)
+    })
 }
 
 function remove(bookId) {
@@ -57,15 +88,21 @@ function getEmptyBook(title = '', description = '', thumbnail = '') {
             amount: '',
             currencyCode: 'EUR',
             isOnSale: ''
-        }
+        },
+        reviews: []
     }
 }
 
-
+function _createReview(reviewToSave) {
+    return {
+        id: utilService.makeId(),
+        ...reviewToSave,
+    }
+}
 
 function _createBooks() {
     const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
-    let books = loadFromStorage(BOOK_KEY)
+    let books = loadFromStorage(BOOK_KEY) || []
     if (!books || !books.length) {
         for (let i = 0; i < 20; i++) {
             const book = {
@@ -85,7 +122,8 @@ function _createBooks() {
                     amount: utilService.getRandomIntInclusive(80, 500),
                     currencyCode: "EUR",
                     isOnSale: Math.random() > 0.7
-                }
+                },
+                reviews: []
             }
             books.push(book)
         }
@@ -99,6 +137,16 @@ function _createBook(title, description, thumbnail, { amount, currencyCode, isOn
     return book
 }
 
+function getFilterFromSearchParams(searchParams) {
+    console.log('Search params', searchParams.get('txt'))
+    const txt = searchParams.get('txt') || ''
+    const price = searchParams.get('price') || ''
+    return {
+        txt,
+        price
+    }
+}
+
 function _setNextPrevBookId(book) {
     return query().then((books) => {
         const bookIdx = books.findIndex((currBook) => currBook.id === book.id)
@@ -108,4 +156,26 @@ function _setNextPrevBookId(book) {
         book.prevBookId = prevBook.id
         return book
     })
+}
+function getCategoryStats() {
+    return storageService.query(BOOK_KEY)
+        .then(books => {
+            const bookCountByCategoryMap = _getBookCountByCategoryMap(books)
+            const data = Object.keys(bookCountByCategoryMap)
+                .map(category => ({
+                    title: category,
+                    value: Math.round((bookCountByCategoryMap[category] / books.length) * 100)
+                }))
+            return data
+        })
+}
+
+function _getBookCountByCategoryMap(books) {
+    const bookCountByCategoryMap = books.reduce((map, book) => {
+        if (!map[book.categories]) map[book.categories] = 0
+        map[book.categories]++
+        return map
+    }, {})
+    console.log(bookCountByCategoryMap)
+    return bookCountByCategoryMap
 }

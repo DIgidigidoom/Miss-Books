@@ -12,6 +12,7 @@ import { Vision } from "./cmps/Vision.jsx"
 import { About } from "./pages/About.jsx"
 import { BookDetails } from "./pages/BookDetails.jsx"
 import { BookIndex } from "./pages/BookIndex.jsx"
+import { Dashbored } from "./pages/Dashbored.jsx"
 import { Home } from "./pages/Home.jsx"
 
 
@@ -36,6 +37,7 @@ export function RootCmp() {
                         <Route path="/book-index/:bookId" element={<BookDetails />} />
                         <Route path="/book-index/edit" element={<BookEdit />} />
                         <Route path="/book-index/edit/:bookId" element={<BookEdit />} />
+                        <Route path="/dashbored" element={<Dashbored />}/>
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </main>
